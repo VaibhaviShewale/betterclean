@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - cleaned{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto">
+        <div class="h5 fw-bold p-4">
+            <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt="#" /></a>
+            <br><br>
+            Login
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="bg-primary text-white px-3 py-2">
+            {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="card px-2 shadow-sm">
+            <div class="card-body rounded">
+                <form method="POST" action="{% url 'login' %}"> 
+                    {% csrf_token %}
+                    <div class="field py-2">
+                        <label class="fw-500 small mb-2" for="username">Email ID</label>
+                        <input class="form-control" type="text" name="username" placeholder="Your Email">
+                    </div>
+                    <div class="field py-2">
+                        <label class="fw-500 small mb-2" for="password">Password</label>
+                        <input class="form-control" type="password" name="password" placeholder="Your password">
+                    </div>
+                    
+                    <div class="d-flex my-3">
+                        <button type="submit" class="btn btn-primary fw-500 ms-auto">Next</button>
+                    </div>
+                </form>
+                <div class="text-muted fw-500 small">
+                    Do not have an account yet? <a href="{% url 'register' %}">Create a new account</a> and explore the communities.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register now - cleaned{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto">
+        <div class="h5 fw-bold p-4">
+            <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt="#" /></a>
+            <br><br>
+            Register to better-clean
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="bg-primary text-white px-3 py-2">
+            {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="card px-2 shadow-sm">
+            <div class="card-body rounded">
+                <form action="{% url 'register' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="field py-2">
+                        <label class="fw-500 small mb-2" for="name">What is your name?</label>
+                        <input class="form-control" type="text" name="name" placeholder="Your name">
+                    </div>
+                    <div class="field py-2">
+                        <label class="fw-500 small mb-2" for="email">Email</label>
+                        <input class="form-control" type="email" name="email" placeholder="Your email">
+                    </div>
+                    <div class="field py-2">
+                        <label class="fw-500 small mb-2" for="username">Pick a unique username</label>
+                        <input class="form-control" type="text" name="username" placeholder="">
+                    </div>
+                    <div class="field py-2">
+                        <label class="fw-500 small mb-2" for="password">Create a Password</label>
+                        <input class="form-control" type="password" name="password" placeholder="Your password">
+                    </div>
+
+                    <div class="d-flex my-3">
+                        <button type="submit" class="btn btn-primary fw-500 ms-auto">Register</button>
+                    </div>
+                </form>
+                <div class="text-muted fw-500 small">
+                    Already have an account? <a href="{% url 'login' %}">Login</a> and explore the better-clean.
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
