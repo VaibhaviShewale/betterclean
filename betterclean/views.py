@@ -2,7 +2,7 @@ from django.core.checks import messages
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,JsonResponse
 from .models import formdata
-from customer.models import ReviewData
+from customer.models import MyReview, ReviewData
 from django.core.mail import send_mail
 from websoftera.settings import EMAIL_HOST_USER
 
@@ -38,7 +38,7 @@ from websoftera.settings import EMAIL_HOST_USER
 
 # Create your views here.
 def index(request):
-    reviews = ReviewData.objects.all()
+    reviews = MyReview.objects.all()
     data = {
         'reviews': reviews
     }

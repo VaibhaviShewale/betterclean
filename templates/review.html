@@ -8,57 +8,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Better clean - Review</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="{% static 'css/mybase.css' %}">
+    <link href="{% static 'css/mybase.css' %}" rel="stylesheet">
 </head>
 <body class="bg-light">
     <div class="container-fluid">
-        <div class="col-lg-5 col-md-6 col-sm-8 col-12 m-auto">
+        <div class="col-lg-4 col-md-5 col-sm-8 col-12 m-auto">
             <div class="h5 fw-bold p-4">
                 <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt="#" /></a>
                 <br><br>
                 Customer Review
             </div>
-            <div class="card px-2">
-                <div class="card-body rounded">
-
-                    <form name="review">
-                        {% csrf_token %}    
+        
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="px-2">
+                            <span class=""><span class="text-muted">Posting as </span>{{request.user.first_name}}</span><br>
+                            <span class="text-muted small">Post a review</span>
+                        </div>
+                    </div>
+                    <form method="POST" action="{% url 'create_review' %}" class="mt-2" name="review">
+                        {% csrf_token %}
+                        <textarea rows="4" class="form-control fw-500 resize-none" name="review"></textarea>
                         <label class="fw-500 small mb-2" for="rating">Please Rate us</label>
                         <div class="text-center status">
                             <strong class="feed"></strong>
                         </div>
-
                         <input onchange="rating()" type="range" name="crating" class="form-range" min="1" max="5">
 
-
-                        <div class="row">
-                            <div class="field py-2 col-6">
-                                <label class="fw-500 small mb-2" for="name">First name</label>
-                                <input class="form-control" type="text" name="cfname" placeholder="Your first name">
-                            </div>
-                            <div class="field py-2 col-6">
-                                <label class="fw-500 small mb-2" for="name">Last name</label>
-                                <input class="form-control" type="text" name="clname" placeholder="Your last name">
-                            </div>
-                        </div>
-                        <div class="field py-2">
-                            <label class="fw-500 small mb-2" for="city">Location (city/town)</label>
-                            <input class="form-control" type="text" name="ccity" placeholder="Your city">
-                        </div>
-                        <div class="field py-2">
-                            <label class="fw-500 small mb-2" for="review">Write a review</label>
-                            <textarea class="form-control resize-none" rows="4" name="creview" placeholder="Your message"></textarea>
-                        </div>
-                        <div class="invalid-feedback fw-500">
-                            &#9432; <span class="feedback">Some error occured while submiting the review. Please try again  </span>
-                        </div>
-                        <div class="d-flex my-3">
-                            <a href="{% url 'index' %}" class="btn fw-500 me-auto text-primary">Go to Better-clean</a>
-                            <button type="submit" class="btn btn-primary fw-500">Submit review</button>
-                        </div>
-
-                    </form> 
-                </div>
+                        <button type="submit" class="btn btn-primary w-100">Post a review</button>
+                    </form>
+               </div>
             </div>
         </div>
     </div>
@@ -87,46 +67,7 @@
             }
         }
 
-        const form = document.forms.review;
-        form.addEventListener("submit", add_review)
-        // document.querySelector(".send").addEventListener("click", submit_request);
-        function add_review(e) {
-            e.preventDefault();
-            const data = new FormData(form);
-            const xhr = new XMLHttpRequest();
-            const loadbtn = form.querySelector("button[type=submit]");
-            const feedback = form.querySelector(".invalid-feedback");
-
-            xhr.open("POST", "{% url 'add_review' %}", true);
-            xhr.onloadstart = loading(loadbtn, true);
-            xhr.onload = function () {
-                loading(loadbtn, false);
-
-                if (this.status == 200) {
-                    response = JSON.parse(this.responseText);
-                    console.log(response.status);
-
-                    if (response.status) {
-                        form.innerHTML = "<h3 class='text-success'>Thank you, "+ response.cfname +"</h3><h5 class='fw-light'>We have received your feedback</h5>"
-                    }
-                    else{
-                        feedback.classList.add("d-block");
-                    }
-                }
-                else{
-                    feedback.classList.add("d-block");
-                }
-            }
-            xhr.send(data);
-        }
-        function loading(btn, val) {
-        if (val) {
-            btn.setAttribute("disabled", true)
-        }
-        else {
-            btn.removeAttribute("disabled")
-        }
-    }
+       
     </script>
 </body>
 </html>

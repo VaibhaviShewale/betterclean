@@ -1,0 +1,146 @@
+{% extends 'index2.html' %}
+
+{% load static %}
+
+{% block style %}
+
+<style type="text/css">
+
+:root{
+    --primary: #3399ff;
+    --primary-hover: #1a8cff;
+    --primary-focus: #0066cc;
+}
+*{
+    transition: none !important; 
+}
+a{
+    text-decoration: none;
+    color: var(--primary);
+}
+a:hover{
+    text-decoration: underline;
+    color: var(--primary-hover);
+}
+
+.fw-500{
+    font-weight: 500;
+}
+.shadow-1{
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+.form-control:focus{
+    box-shadow: none;
+}
+.resize-none{
+    resize: none;
+}
+
+.bg-primary{
+    background-color: var(--primary) !important;
+    color: #fff;
+}
+.border-primary{
+    border: 1px solid var(--primary) !important;
+}
+.text-primary{
+    color: var(--primary) !important;
+}
+.btn-primary{
+    color: #fff;
+    border-color: var(--primary);
+    background-color: var(--primary);
+}
+.btn-primary:hover{
+    color: #fff;
+    border-color: var(--primary-hover);
+    background-color: var(--primary-hover);
+}
+.btn-primary:focus{
+    color: #fff;
+    border-color: var(--primary-hover);
+    background-color: var(--primary-hover);
+    box-shadow: none !important;
+}
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<header>
+    <!-- header inner -->
+    <div class="head">
+       <div  class="container">
+          <div class="row">
+             <div  class="col-md-6">
+                <ul class="email_call">
+                   <li><a href="#"><img src="{% static 'icon/2.png '%}" alt="#"/>(+71)1234567890</a></li>
+                   <li><a href="#"><img src="{% static 'icon/1.png' %}" alt="#"/>demo@gmail.com</a></li>
+                </ul>
+             </div>
+             <div  class="col-md-6">
+                <ul class="social_icon">
+                   <li><a href="https://facebook.com/people/Web-Softera/100068843286759/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                   <li><a href="https://twitter.com/websoftera1" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></i></a></li>
+                   <li><a href="https://www.instagram.com/websoftera/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></i></a></li>
+                   <li><a href="https://www.linkedin.com/in/vaibhavi-shewale-ba3a1a190"><i class="fa fa-linkedin-square" aria-hidden="true"></i></i></a></li>
+                   {% if request.user.is_authenticated %}
+                   <li class="text-white">Hi, {{request.user.username}}</li>
+                   <li><a href="{% url 'logout' %}" class="btn w-100 bg-danger">Logout</a></li>
+                   {% else %}
+                   <li><a href="{% url 'login' %}" class="btn w-100">Login</a></li>
+                   <li><a href="{% url 'register' %}" class="btn w-100">Register</a></li>
+                   {% endif %}
+                </ul>
+             </div>
+          </div>
+       </div>
+    </div>
+
+</header>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-12">
+            <div class="m-4">
+                <h4>All reviews from customers</h4>
+            </div>
+           
+            {% for review in review %}
+            <div class="card shadow-sm my-2">
+                <div class="card-body">
+                    <div class="">
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <img width="30" height="30" src="/media/{{review.user.img}}">
+                            </div>
+                            <div class="px-2">
+                                {{review.user.user.first_name}} &#9733; {{review.rating}}
+                            </div>
+                        </div>
+                        <div>
+                            {{review.review}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        <div class="col-md-4 col-12">
+            <div class="m-4">
+                <h4>My review</h4>
+            </div>
+            
+            <div class="card shadow-sm my-2">
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

@@ -13,7 +13,8 @@ from django.contrib import messages
 
 def delete_review(request):
     if request.user.is_authenticated:
-        delete = MyReview.objects.delete(user=request.user)
+        user = Profile.objects.get(user=request.user)
+        delete = MyReview.objects.delete(user=user)
         delete.save()
         messages.success(request, "Review deleted successfully")
         return redirect("index")
@@ -40,6 +41,7 @@ def update_review(request):
 
 def create_review(request):
     if request.user.is_authenticated:
+        user = Profile.objects.get(user=request.user)
         pass
     else:
         messages.warning(request, "Please login to continue")
@@ -52,16 +54,18 @@ def create_review(request):
         }
         return render(request, "review.html", data)
     else:
+        print("Inside post request")
         review = request.POST.get("review")
-        rating = request.POST.get("rating")
+        rating = request.POST.get("crating")
 
         try:
-            create = MyReview.objects.create(user=request.user, rating=rating, review=review)
+            create = MyReview.objects.create(user=user, rating=rating, review=review)
             create.save()
             messages.success(request, "Review created successfully")
             return redirect("index")
-        except:
+        except Exception as e:
             messages.error(request, "Error while creating the request")
+            print(e)
             return redirect("index")
 
 
@@ -105,6 +109,7 @@ def register_user(request):
         try:
             user = User.objects.create_user(username=username, password=password, email=email, first_name=name)
             user.save()
+            Profile.objects.create(user=user).save()
             login(request, user)
             return redirect("index")
         except:
@@ -129,3 +134,11 @@ def login_user(request):
         else:
             messages.error(request, "Invalid details")
             return redirect("login")
+
+def all_reviews(request):
+    reviews = MyReview.objects.all()
+
+    data = {
+        'review': reviews
+    }
+    return render(request, "all_reviews.html",data)

@@ -29,6 +29,7 @@
       <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+      {% block style %}{% endblock %}
    </head>
    <!-- body -->
    <body class="main-layout">
@@ -38,7 +39,7 @@
          <div class="loader"><img src="{% static 'images/loading.gif' %}" alt="#" /></div>
       </div>
       <!-- end loader -->
-
+      {% block body %}
       <!-- header -->
       <header>
          <!-- header inner -->
@@ -69,6 +70,15 @@
                </div>
             </div>
          </div>
+
+         {% if messages %}
+         {% for message in messages %}
+         <div class="bg-primary text-white px-3 py-2">
+             {{message}}
+         </div>
+         {% endfor %}
+         {% endif %}
+
          <div class="header-top">
             <div class="header">
                <div class="container-fluid">
@@ -190,6 +200,7 @@
          </div>
       </header>
 
+    
       <!-- three box -->
       <div id="service" class="back_box">
          <div class="container-fluid">
@@ -415,6 +426,7 @@
                <div class="col-md-12">
                   <div id="main_slider" class="carousel slide banner-main2" data-ride="carousel">
                      <div class="carousel-inner">
+                        
                         <div class="carousel-item active">
                            <div class="container">
                               <div class="carousel-caption">
@@ -427,50 +439,23 @@
                                  </div>
                                  <span>Luka duge</span>
                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sureThere are many variations of passages of Lorem Ipsum available, but the majorityhave suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure</p>
-                                 <a href="#">Read More</a>
                               </div>
                            </div>
                         </div>
-                        <!-- <div class="carousel-item">
-                           <div class="container">
-                              <div class="carousel-caption">
-                                 <div class="slider-frame">
-                                    <div class="slide-images">
-                                       <div class="image-container">
-                                          <img src="{% static 'images/rev.jpg' %}" alt="#"/>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <span>Kunal Umaji</span>
-                                 <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sureThere are many variations of passages of Lorem Ipsum available, but the majorityhave suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure</p>
-                                 <a href="#">Read More</a>
-                              </div>
-                           </div>
-                        </div> -->
+
                         {% for i in reviews %}
                         <div class="carousel-item">
                            <div class="container">
                               <div class="carousel-caption">
-                                 <img src="{% static 'images/rev.jpg' %}" alt="#"/>
-                                 <i><img src="{% static 'images/2.png' %}" alt="#"/></i>
-                                 <span>{{i.cfname}} {{i.clname}}</span>
-                                 <p>{{i.creview}}</p>
-                                 <a href="#">Read More</a>
+                                 <i><img width="100" height="100" src="/media/{{i.user.img}}" alt="#"/></i>
+                                 <span>{{i.user.user.first_name}} <br>Rating: {{i.rating}}.0  </span>
+                                 <p>{{i.review}}</p>
+                                 <a href="{% url 'all_reviews' %}">See more</a>
                               </div>
                            </div>
                         </div>
                         {% endfor %}
-                        <!-- <div class="carousel-item">
-                           <div class="container">
-                              <div class="carousel-caption">
-                                 <img src="{% static 'images/rev.jpg' %}" alt="#"/>
-                                 <i><img src="{% static 'images/2.png' %}" alt="#"/></i>
-                                 <span>Luka Kunal</span>
-                                 <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sureThere are many variations of passages of Lorem Ipsum available, but the majorityhave suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure</p>
-                                 <a href="#">Read More</a>
-                              </div>
-                           </div>
-                        </div> -->
+                     
                      </div>
                      <a class="carousel-control-prev" href="#main_slider" role="button" data-slide="prev"> <i class='fa fa-angle-left'></i></a>
                      <a class="carousel-control-next" href="#main_slider" role="button" data-slide="next"> <i class='fa fa-angle-right'></i></a>
@@ -481,6 +466,7 @@
       </div>
       <!-- end review -->
 
+      
       <!-- contact -->
       <div id="request" class="contact">
          <div class="container-fluid">
@@ -529,7 +515,7 @@
          </div>
       </div>
       <!-- end contact -->
-
+      {% endblock body %}
       <!--  footer -->
       <footer>
          <div class="footer">
